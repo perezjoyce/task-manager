@@ -4,6 +4,7 @@ const validator = require('validator')
 const uniqueValidator = require('mongoose-unique-validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const Task = require('../models/task')
 
 /*Create the schema first and pass that in to be able to use more advanced features*/
 
@@ -55,6 +56,13 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+//set relationship between user and task
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id', //user
+    foreignField: 'owner' //name of field on other thing
+})
+
 //for unique validator
 userSchema.plugin(uniqueValidator)
 
@@ -102,7 +110,7 @@ userSchema.methods.toJSON = function () {
     return userObject
 }
 
-//has plain text password before saving
+//hash plain text password before saving
 userSchema.pre('save', async function (next) {
     //access to individual user we want to save
     const user = this
@@ -112,6 +120,16 @@ userSchema.pre('save', async function (next) {
         user.password = await bcrypt.hash(user.password, 8)
     }
 
+    next()
+})
+
+//delete user tasks when user is removed
+userSchema.pre('remove', async function (next) {
+    const user = this
+
+    //delete multiple tasks
+    await Task.deleteMany({ owner: user._id })
+    
     next()
 })
 
