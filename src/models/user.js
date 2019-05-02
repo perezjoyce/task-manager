@@ -54,6 +54,9 @@ const userSchema = new mongoose.Schema({
             required: true
         }
     }]
+}, {
+    //OPTIONS (2nd argument)
+    timestamps: true
 })
 
 //set relationship between user and task
@@ -129,7 +132,7 @@ userSchema.pre('remove', async function (next) {
 
     //delete multiple tasks
     await Task.deleteMany({ owner: user._id })
-    
+
     next()
 })
 
