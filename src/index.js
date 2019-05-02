@@ -12,16 +12,23 @@ const Task = require('./models/task')
 //set up for heroku
 const port = process.env.PORT || 3000
 
+//regiser middleware functions (i.e, do something)
+// app.use((req, res, next) => {
+//    if (req.method ==='GET') {
+//     return res.send('GET requests are disabled')
+//    } 
+//    next()
+// })
+
+//register a middleware function to disable all requests 
+// app.use((req, res, next) => {
+//     res.status(503).send('The site is under maintenance. Please come back soon.')
+// })
+
 //configure express to automatically parse incoming JSON to an object
 app.use(express.json())
 
 //================== Create new router =============
-// const router = new express.Router()
-// router.get('/test', (req, res) => {
-//     res.send('This is from my other router')
-// })
-//register router with existing app
-// app.use(router)
 
 //load in user router
 const userRouter = require('./routers/user')
@@ -34,3 +41,21 @@ app.use(taskRouter)
 app.listen(port, () => {
     console.log('Server is up on port ' + port)
 })
+
+
+// //jasonwebserver 
+// const jwt = require('jsonwebtoken')
+
+// const myFunction = async () => {
+//     //jsonwebtoken
+//     const token = jwt.sign({ _id: 'abc123' }, 'thisismynewcourse', { expiresIn: '7 days'})
+//     console.log(token)
+
+//     //verify token
+//     const data = jwt.verify(token, 'thisismynewcourse')
+//     console.log(data)
+// }
+
+// myFunction()
+
+
