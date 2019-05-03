@@ -138,12 +138,12 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
     //     console.log(error)
     // })
 
-    db.collection('tasks').deleteOne({
-        description: 'Update PRC license'
-    }).then((result) => {
-        console.log(result)
-    }).catch((error) => {
-        console.log(error)
-    })
+    // db.collection('tasks').deleteOne({
+    //     description: 'Update PRC license'
+    // }).then((result) => {
+    //     console.log(result)
+    // }).catch((error) => {
+    //     console.log(error)
+    // })
 
 })

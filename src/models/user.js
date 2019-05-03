@@ -53,7 +53,10 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    }]
+    }], 
+    avatar: {
+        type: Buffer
+    }
 }, {
     //OPTIONS (2nd argument)
     timestamps: true
@@ -109,6 +112,9 @@ userSchema.methods.toJSON = function () {
     //manipulate userObject to change what we share to login users
     delete userObject.password
     delete userObject.tokens
+
+    //remove avatar data from profile response to lighten JSON response
+    delete userObject.avatar
 
     return userObject
 }
